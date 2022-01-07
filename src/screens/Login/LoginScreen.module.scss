@@ -1,0 +1,79 @@
+* {
+  transition: 0.6s;
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  /* margin-top: 20px; */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  background-color: rgb(244, 255, 244);
+}
+
+.adImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 90%;
+}
+
+.img_container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.for_flex {
+  display: flex;
+  align-items: center;
+}
+
+.email_input {
+  border-color: green !important;
+  outline-color: red !important;
+}
+
+@media only screen and (max-width: 770px) {
+  .main {
+    height: 100vh;
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .img_container {
+    width: 100% !important;
+    height: 300px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .adImg {
+    width: 70%;
+    height: 100%;
+  }
+}
+
+@media only screen and (max-width: 570px) {
+  .main {
+    height: 100vh;
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .img_container {
+    width: 100% !important;
+    height: 230px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .adImg {
+    width: 60%;
+    height: 90%;
+  }
+}
