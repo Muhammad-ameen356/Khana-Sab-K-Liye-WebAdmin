@@ -5,6 +5,7 @@ import { decrease, increase } from './store/Reducers/counterReducer';
 import MenuNavbar from './components/Navbar/MenuNavbar'
 import Login from "./screens/Login/LoginScreen"
 import AdminScreen from './screens/AdminScreen/AdminScreen'
+import Approutes from './Routes/Approutes';
 
 function App() {
   const { value } = useSelector(state => state.counter);
@@ -13,7 +14,7 @@ function App() {
 
   return (
     <span className="">
-      <Login />
+      <Approutes />
       {/* <AdminScreen /> */}
       {/* <h1>{value}</h1>
       <button className={"btn btn-primary m-2"} onClick={() => dispatch(increase(15))}>++</button>

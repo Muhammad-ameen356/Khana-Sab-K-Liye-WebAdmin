@@ -18,7 +18,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <ToastContainer />
+        <ToastContainer autoClose={2500} />
         <App />
       </BrowserRouter>
     </Provider>

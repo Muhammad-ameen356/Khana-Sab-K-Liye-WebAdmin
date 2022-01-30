@@ -3,6 +3,7 @@ import AdminCss from './AdminScreen.module.scss'
 import PendingRequest from '../../components/Requests/PendingRequest';
 import ApprovedRequest from '../../components/Requests/ApprovedRequest';
 import RejectedRequest from '../../components/Requests/RejectedRequest';
+
 import { db } from '../../config/Firebase/FirebaseConfig'
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 
@@ -12,8 +13,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
 import Loader from '../../components/Loader/Loader';
 import ACTION from '../../config/Action'
+import Navbar from '../../components/Navbar/Navbar';
 
 const AdminScreen = () => {
     const [pendingReqState, setPendingReq] = useState([]);
@@ -74,6 +77,7 @@ const AdminScreen = () => {
 
     return (
         <div>
+        <Navbar />
             <div className={`${AdminCss.mainContainer}`}>
                 <div className={`${AdminCss.page_content}`}>
                     <div className={`${AdminCss.tabbed}`}>

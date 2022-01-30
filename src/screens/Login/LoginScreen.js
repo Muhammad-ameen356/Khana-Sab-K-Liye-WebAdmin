@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import loginCss from './LoginScreen.module.scss'
-import logo from '../../Assists/logo.png'
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,13 +8,13 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../config/Firebase/FirebaseConfig'
+import Loader from '../../components/Loader/Loader';
+import logo from '../../Assists/logo.png'
 
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
 
-import { loggedIn, getUser } from '../../store/Reducers/AuthReducer';
+import { useSelector, useDispatch } from 'react-redux'
+import { getUser } from '../../store/Reducers/AuthReducer';
 
 
 
@@ -28,8 +27,6 @@ function Login() {
     const [values, setValues] = useState({ showPassword: false, });
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    console.log("pppp", auth_message);
 
     const handleLogin = () => {
 
@@ -83,9 +80,13 @@ function Login() {
                         </FormControl>
                     </div>
                     <div className={`mt-3`}>
-                        <Button variant="contained" color="success" onClick={handleLogin} style={{ width: 100 }}>
-                            Login
-                        </Button>
+                        {loading ?
+                            <Loader />
+                            :
+                            <Button variant="contained" color="success" onClick={handleLogin} style={{ width: 100 }}>
+                                Login
+                            </Button>
+                        }
                     </div>
                 </div>
             </div>
