@@ -13,8 +13,8 @@ function App() {
 
   return (
     <span className="">
-      {/* <Login /> */}
-      <AdminScreen />
+      <Login />
+      {/* <AdminScreen /> */}
       {/* <h1>{value}</h1>
       <button className={"btn btn-primary m-2"} onClick={() => dispatch(increase(15))}>++</button>
       <button className={"btn btn-primary"} onClick={() => dispatch(decrease())} >--</button> */}

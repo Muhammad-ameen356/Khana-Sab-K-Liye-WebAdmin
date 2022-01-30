@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -17,7 +18,7 @@ import ACTION from '../../config/Action'
 import { db } from '../../config/Firebase/FirebaseConfig'
 
 
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 
 
 function createData(name, familymember, monthlyIncome, helpCategory, branchName, DOB, fatherName, CNIC, personImg, CNICfront, CNICback, index, uid) {
@@ -84,6 +85,10 @@ function Row(props) {
             }).catch((e) => {
                 console.log("Not Success", e);
             })
+        } else if (action === ACTION.DELETE) {
+            await deleteDoc(washingtonRef);
+            
+            console.log("Delete Button Work");
         }
     }
 
@@ -111,8 +116,8 @@ function Row(props) {
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
-                            <Typography variant="h5" gutterBottom component="div" style={{ textAlign: "center", textDecoration: "underline" }}>
-                                All Details of {row.name}
+                            <Typography variant="h6" gutterBottom component="div" style={{ padding: 15, textAlign: "left", textDecoration: "underline" }}>
+                                Details of {row.name}
                             </Typography>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
@@ -138,9 +143,15 @@ function Row(props) {
                                         </TableRow>
                                     ))}
                                     <TableRow>
-                                        <TableCell component="th" scope="row"><button className="btn btn-success" onClick={() => updateStatus(ACTION.APPROVED, row.uid)}>Accept</button></TableCell>
-                                        <TableCell component="th" scope="row"><button className="btn btn-warning" onClick={() => updateStatus(ACTION.REJECT, row.uid)}>Reject</button></TableCell>
-                                        <TableCell component="th" scope="row"><button className="btn btn-danger">Delete</button></TableCell>
+                                        <TableCell component="th" scope="row">
+                                            <Button variant="contained" color="success" size="small" onClick={() => updateStatus(ACTION.APPROVED, row.uid)}>Accept</Button>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            <Button variant="contained" color="warning" size="small" onClick={() => updateStatus(ACTION.REJECT, row.uid)}>Reject</Button>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            <Button variant="contained" color="error" size="small" onClick={() => updateStatus(ACTION.DELETE, row.uid)}>Delete</Button>
+                                        </TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
