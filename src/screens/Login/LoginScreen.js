@@ -29,7 +29,6 @@ function Login() {
     const [password, setPassword] = useState("");
 
     const handleLogin = () => {
-
         let credential = {
             email, password
         }

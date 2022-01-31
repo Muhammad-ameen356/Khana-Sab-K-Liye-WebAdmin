@@ -36,7 +36,7 @@ function Navbar() {
                     <Typography variant="h5" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
                         KHANA SAB K LIYE
                     </Typography>
-                    <Button color="inherit" sx={{ fontWeight: 'bold' }} onClick={onLogout} >Logout</Button>
+                    <Button color="inherit" sx={{ fontWeight: 'bold' }} className={Css.logoutButton} onClick={onLogout} >Logout</Button>
                 </Toolbar>
             </AppBar>
         </div>

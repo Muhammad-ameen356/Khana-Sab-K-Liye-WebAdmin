@@ -5,3 +5,13 @@
   background-color: rgb(129, 183, 30) !important;
   font-family: "Oswald", sans-serif !important;
 }
+
+.logoutButton {
+  border: 3px solid white;
+  padding: 7px 20px 7px 20px;
+  border-radius: 50px;
+}
+
+.logoutButton:hover {
+  background-color: rgb(165, 230, 44);
+}
