@@ -114,6 +114,29 @@ body {
 .tab_content::-webkit-scrollbar-thumb {
   background: rgb(119, 119, 119);
 }
+
+.noDataFound{
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noDataFound img{
+  width: 100px;
+  align-items: center;
+  align-self: center;
+  font-size: 30px;
+}
+
+.noDataFound p{
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+
 /* -------------------- */
 
 /*  */

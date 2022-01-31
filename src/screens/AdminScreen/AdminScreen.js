@@ -18,10 +18,17 @@ import Loader from '../../components/Loader/Loader';
 import ACTION from '../../config/Action'
 import Navbar from '../../components/Navbar/Navbar';
 
+import nodataImg from '../../images/noData.svg'
+
 const AdminScreen = () => {
     const [pendingReqState, setPendingReq] = useState([]);
     const [approvedReqState, setApprovedReq] = useState([]);
     const [rejectedReqState, setRejectReq] = useState([]);
+
+    const [pendingDataFound, setPendingData] = useState(false);
+    const [approvedDataFound, setApprovedData] = useState(false);
+    const [deleteDataFound, setDeleteDataFound] = useState(false);
+
 
     const [loading, setLoading] = useState(false)
 
@@ -29,13 +36,20 @@ const AdminScreen = () => {
         setLoading(true)
         const q = query(collection(db, "Forms"), where("active_status", "==", ACTION.PENDING));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const data = [];
-            querySnapshot.forEach((doc) => {
-                data.push(doc.data());
-            });
-            console.log(data);
-            setPendingReq(data)
-            setLoading(false)
+            if (querySnapshot.docChanges().length === 0) {
+                console.log("No any data found");
+                setLoading(false);
+                setPendingData(false)
+            } else {
+                const data = [];
+                querySnapshot.forEach((doc) => {
+                    data.push(doc.data());
+                });
+                console.log(data);
+                setPendingReq(data)
+                setLoading(false)
+                setPendingData(true)
+            }
         });
     }
 
@@ -44,13 +58,20 @@ const AdminScreen = () => {
         console.log("ameen");
         const q = query(collection(db, "Forms"), where("active_status", "==", ACTION.APPROVED));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const data = [];
-            querySnapshot.forEach((doc) => {
-                data.push(doc.data());
-            });
-            console.log(data);
-            setApprovedReq(data)
-            setLoading(false)
+            if (querySnapshot.docChanges().length === 0) {
+                console.log("No any data found");
+                setLoading(false);
+                setApprovedData(false)
+            } else {
+                const data = [];
+                querySnapshot.forEach((doc) => {
+                    data.push(doc.data());
+                });
+                console.log(data);
+                setApprovedReq(data)
+                setLoading(false)
+                setApprovedData(true)
+            }
         });
     }
 
@@ -58,13 +79,19 @@ const AdminScreen = () => {
         setLoading(true)
         const q = query(collection(db, "Forms"), where("active_status", "==", ACTION.REJECT));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const data = [];
-            querySnapshot.forEach((doc) => {
-                data.push(doc.data());
-            });
-            console.log(data);
-            setRejectReq(data);
-            setLoading(false)
+            if (querySnapshot.docChanges().length === 0) {
+                console.log("No any data found");
+                setLoading(false);
+                setDeleteDataFound(false)
+            } else {
+                const data = [];
+                querySnapshot.forEach((doc) => {
+                    data.push(doc.data());
+                });
+                console.log(data);
+                setRejectReq(data);
+                setDeleteDataFound(true)
+            }
         });
     }
 
@@ -77,7 +104,7 @@ const AdminScreen = () => {
 
     return (
         <div>
-        <Navbar />
+            <Navbar />
             <div className={`${AdminCss.mainContainer}`}>
                 <div className={`${AdminCss.page_content}`}>
                     <div className={`${AdminCss.tabbed}`}>
@@ -101,23 +128,32 @@ const AdminScreen = () => {
                                         <Loader size={60} loading={loading} color={"#307a03"} />
                                     </div>
                                     :
-                                    <TableContainer component={Paper}>
-                                        <Table aria-label="collapsible table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell />
-                                                    <TableCell><b>Name</b></TableCell>
-                                                    <TableCell align="right"><b>No. Family Member</b></TableCell>
-                                                    <TableCell align="right"><b>Monthly Income</b></TableCell>
-                                                    <TableCell align="right"><b>Help Category</b></TableCell>
-                                                    <TableCell align="right"><b>Branch Name</b></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            {pendingReqState.map((data, index) => {
-                                                return <PendingRequest key={index} data={data} />
-                                            })}
-                                        </Table>
-                                    </TableContainer>}
+                                    pendingDataFound ?
+                                        <TableContainer component={Paper}>
+                                            <Table aria-label="collapsible table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell />
+                                                        <TableCell><b>Name</b></TableCell>
+                                                        <TableCell align="right"><b>No. Family Member</b></TableCell>
+                                                        <TableCell align="right"><b>Monthly Income</b></TableCell>
+                                                        <TableCell align="right"><b>Help Category</b></TableCell>
+                                                        <TableCell align="right"><b>Branch Name</b></TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                {pendingReqState.map((data, index) => {
+                                                    return <PendingRequest key={index} data={data} />
+                                                })}
+                                            </Table>
+                                        </TableContainer>
+                                        :
+                                        <div className={AdminCss.noDataFound}>
+                                            <div>
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}><img src={nodataImg} width={120} alt="" srcset="" /></div>
+                                                <div><p>No any Data Found</p></div>
+                                            </div>
+                                        </div>
+                                }
                             </div>
                         </div>
 
@@ -129,23 +165,33 @@ const AdminScreen = () => {
                                         <Loader size={60} loading={loading} color={"#307a03"} />
                                     </div>
                                     :
-                                    <TableContainer component={Paper}>
-                                        <Table aria-label="collapsible table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell />
-                                                    <TableCell><b>Name</b></TableCell>
-                                                    <TableCell align="right"><b>No. Family Member</b></TableCell>
-                                                    <TableCell align="right"><b>Monthly Income</b></TableCell>
-                                                    <TableCell align="right"><b>Help Category</b></TableCell>
-                                                    <TableCell align="right"><b>Branch Name</b></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            {approvedReqState.map((data, index) => {
-                                                return <ApprovedRequest key={index} data={data} />
-                                            })}
-                                        </Table>
-                                    </TableContainer>}
+                                    approvedDataFound
+                                        ?
+                                        <TableContainer component={Paper}>
+                                            <Table aria-label="collapsible table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell />
+                                                        <TableCell><b>Name</b></TableCell>
+                                                        <TableCell align="right"><b>No. Family Member</b></TableCell>
+                                                        <TableCell align="right"><b>Monthly Income</b></TableCell>
+                                                        <TableCell align="right"><b>Help Category</b></TableCell>
+                                                        <TableCell align="right"><b>Branch Name</b></TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                {approvedReqState.map((data, index) => {
+                                                    return <ApprovedRequest key={index} data={data} />
+                                                })}
+                                            </Table>
+                                        </TableContainer>
+                                        :
+                                        <div className={AdminCss.noDataFound}>
+                                            <div>
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}><img src={nodataImg} width={120} alt="" srcset="" /></div>
+                                                <div><p>No any Data Found</p></div>
+                                            </div>
+                                        </div>
+                                }
                             </div>
                         </div>
 
@@ -157,23 +203,33 @@ const AdminScreen = () => {
                                         <Loader size={60} loading={loading} color={"#307a03"} />
                                     </div>
                                     :
-                                    <TableContainer component={Paper}>
-                                        <Table aria-label="collapsible table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell />
-                                                    <TableCell><b>Name</b></TableCell>
-                                                    <TableCell align="right"><b>No. Family Member</b></TableCell>
-                                                    <TableCell align="right"><b>Monthly Income</b></TableCell>
-                                                    <TableCell align="right"><b>Help Category</b></TableCell>
-                                                    <TableCell align="right"><b>Branch Name</b></TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            {rejectedReqState.map((data, index) => {
-                                                return <RejectedRequest key={index} data={data} />
-                                            })}
-                                        </Table>
-                                    </TableContainer>}
+                                    deleteDataFound
+                                        ?
+                                        <TableContainer component={Paper}>
+                                            <Table aria-label="collapsible table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell />
+                                                        <TableCell><b>Name</b></TableCell>
+                                                        <TableCell align="right"><b>No. Family Member</b></TableCell>
+                                                        <TableCell align="right"><b>Monthly Income</b></TableCell>
+                                                        <TableCell align="right"><b>Help Category</b></TableCell>
+                                                        <TableCell align="right"><b>Branch Name</b></TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                {rejectedReqState.map((data, index) => {
+                                                    return <RejectedRequest key={index} data={data} />
+                                                })}
+                                            </Table>
+                                        </TableContainer>
+                                        :
+                                        <div className={AdminCss.noDataFound}>
+                                            <div>
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}><img src={nodataImg} width={120} alt="" srcset="" /></div>
+                                                <div><p>No any Data Found</p></div>
+                                            </div>
+                                        </div>
+                                }
                             </div>
                         </div>
 
