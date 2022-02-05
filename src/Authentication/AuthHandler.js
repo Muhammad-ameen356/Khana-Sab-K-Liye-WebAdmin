@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Switch } from "react-router-dom";
-import Authcontext from '../Context/AuthContext'
 import Login from '../screens/Login/LoginScreen';
 import AdminScreen from '../screens/AdminScreen/AdminScreen'
 import { useSelector } from 'react-redux'
@@ -32,7 +31,7 @@ const IfNotLogIn = () => {
 }
 
 const AuthHandler = () => {
-    const { data, isLoggedIn, loading, auth_message } = useSelector(state => state.Authentication);
+    const { isLoggedIn } = useSelector(state => state.Authentication);
     console.log(isLoggedIn);
 
     return isLoggedIn ? <IfLogIn /> : <IfNotLogIn />

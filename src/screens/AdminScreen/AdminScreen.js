@@ -90,6 +90,7 @@ const AdminScreen = () => {
                 });
                 console.log(data);
                 setRejectReq(data);
+                setLoading(false);
                 setDeleteDataFound(true)
             }
         });

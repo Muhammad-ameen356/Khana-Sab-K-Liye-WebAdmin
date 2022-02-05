@@ -1,13 +1,11 @@
 import React, { useEffect, useState, } from 'react'
 import { BrowserRouter as Router, } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
-import Authcontext from "../Context/AuthContext";
 import AuthHandler from "../Authentication/AuthHandler";
 import { auth, db } from '../config/Firebase/FirebaseConfig'
 import Loader from "../components/Loader/Loader";
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux'
-import { adminCheck } from '../store/Reducers/AuthReducer';
 import { logout, loggedIn, loading as reducerLoading } from '../store/Reducers/AuthReducer';
 
 
@@ -38,7 +36,6 @@ const Approutes = () => {
             console.log("Document data:",);
             if (docSnap.data().type === 'admin') {
                 dispatch(loggedIn())
-
             } else {
                 dispatch(logout())
             }
@@ -52,7 +49,6 @@ const Approutes = () => {
             {
                 loading ? <div style={{ width: "100%", height: "100vh", display: 'flex', justifyContent: 'center', alignItems: 'center' }}> <Loader /> </div> : <AuthHandler />
             }
-            {/* <AuthHandler /> */}
         </Router>
     );
 };

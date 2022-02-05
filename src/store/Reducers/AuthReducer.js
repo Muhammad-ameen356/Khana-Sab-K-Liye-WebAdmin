@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../config/Firebase/FirebaseConfig';
 import { toast } from 'react-toastify';
 import { doc, getDoc } from "firebase/firestore";
-import { db } from '../../config/Firebase/FirebaseConfig';
+import { db, auth } from '../../config/Firebase/FirebaseConfig';
+import { signOut } from "firebase/auth";
 
 
 const initialState = {
@@ -52,7 +52,7 @@ const adminCheck = (uid) => {
             }
         } else {
             console.log("No such document!");
-            toast.error(`Invalid Credentials`);
+            toast.error(`No user Found`);
         }
     }
 }
@@ -75,7 +75,20 @@ const getUser = ({ email, password }) => {
     }
 }
 
+const logoutAction = () => {
+    return async (dispatch) => {
+        dispatch(authSlice.actions.loading());
+        await signOut(auth).then(() => {
+            dispatch(logout())
+            console.log("Signout Successfull");
+            toast.success('Signout Successfully');
+        }).catch((error) => {
+            console.log(error);
+            toast.error('Signout failed');
+        });
+    }
+}
 
 export const { loggedIn, loading, error, logout } = authSlice.actions;
-export { getUser, adminCheck };
+export { getUser, adminCheck, logoutAction };
 export default authSlice.reducer;
